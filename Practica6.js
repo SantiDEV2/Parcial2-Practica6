@@ -1,20 +1,30 @@
-function myhour () {
-    let seconds = parseInt(this, 10); 
-    let hours   = Math.floor(sec_num / 3600);
-    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-    let sec = sec_num - (hours * 3600) - (minutes * 60);
+function hms() {
+    let fecha = new Date();
+    let hrs = fecha.getHours();
+    let min = fecha.getMinutes();
+    let sec = fecha.getSeconds();
 
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    console.log(hours+':'+minutes+':'+seconds);
+    let seconds;
+    seconds = sec < 10 ? seconds = `0${sec}` : seconds = sec;
+    let minutes;
+    minutes = min < 10 ? minutes = `0${min}` : minutes = min;
+    let hours;
+    let isPm = hrs % 12 > 0;
+    let gmt = isPm ? "pm" : "am";
+
+    if (hrs == 12) {
+        hours = 12;
+    }
+    else if (hrs != 12) {
+        if (hrs % 12 < 10) {
+            hours = `0${hrs % 12}`;
+        } else {
+            hours = hrs % 12;
+        }
+    }
+    return `${hours}:${minutes}:${seconds} ${gmt}`;
 }
 
-
-/* let fecha = new Date();
-let hours = fecha.getHours();
-let minutes = fecha.getMinutes();
-let seconds = fecha.getSeconds();
-
-let hms = `${hours}:${minutes}:${seconds}`;
- */
+setInterval(function () {
+    console.log(hms());
+}, 1000);
